@@ -1,0 +1,4 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://postUser:password@localhost:27017/posts
