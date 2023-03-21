@@ -2,3 +2,13 @@ spring:
   data:
     mongodb:
       uri: mongodb://postUser:password@localhost:27017/posts
+  application:
+    name: ms-post
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:9090/eureka/
+
+server:
+  port: 0
