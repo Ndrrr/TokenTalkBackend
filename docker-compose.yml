@@ -9,7 +9,8 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
-
+    volumes:
+      - ./mongodbdata:/data/db
   mongo-express:
     image: mongo-express
     restart: always
@@ -19,3 +20,14 @@ services:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: example
       ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
+  postgres:
+    image: postgres:15-alpine
+    restart: always
+    ports:
+      - "54322:5432"
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: example
+      POSTGRES_DB: tokentalk
+    volumes:
+        - ./postgresdata:/var/lib/postgresql/data

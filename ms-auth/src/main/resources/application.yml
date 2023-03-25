@@ -1,0 +1,24 @@
+server:
+  port: 0
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:54322/tokentalk
+    username: root
+    password: example
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  application:
+    name: ms-auth
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:9090/eureka/
+
+jwt:
+    secret: supersecretsupersecretsupersecretsupersecretsupersecretsupersecretsupersecretsupersecretsupersecretsupersecret
+    defaultExpiration: 86400000
