@@ -5,6 +5,7 @@ import com.tokentalk.post.dto.PostFilter;
 import com.tokentalk.post.dto.request.CreatePostRequest;
 import com.tokentalk.post.dto.response.PostResponse;
 import com.tokentalk.post.service.PostService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +27,7 @@ public class PostController {
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
     public void create(@RequestHeader("userId") Long authorId ,
-                       @RequestBody CreatePostRequest request) {
+                       @RequestBody @Valid CreatePostRequest request) {
         postService.create(authorId, request);
     }
 

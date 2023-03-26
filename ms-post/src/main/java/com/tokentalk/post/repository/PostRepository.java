@@ -10,4 +10,5 @@ import java.util.List;
 public interface PostRepository extends MongoRepository<Post, String> {
 
     List<Post> findAllByAuthorIdIn(List<Long> authorIds);
+
 }
