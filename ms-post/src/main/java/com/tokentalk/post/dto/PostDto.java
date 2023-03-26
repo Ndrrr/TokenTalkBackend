@@ -6,6 +6,6 @@ import lombok.Data;
 public class PostDto {
 
     private String content;
-    private String authorId;
+    private Long authorId;
 
 }

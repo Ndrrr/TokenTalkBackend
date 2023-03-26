@@ -11,6 +11,6 @@ public class Post {
     @Id
     private String id;
     private String content;
-    private String authorId;
+    private Long authorId;
 
 }
