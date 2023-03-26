@@ -4,19 +4,25 @@ import com.tokentalk.post.domain.Post;
 import com.tokentalk.post.dto.PostDto;
 import com.tokentalk.post.dto.request.CreatePostRequest;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
-
-import java.util.List;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface PostMapper {
 
     PostMapper INSTANCE = Mappers.getMapper(PostMapper.class);
 
-    Post toPost(CreatePostRequest createPostRequest);
+    @Mapping(target = "content", source = "request.content")
+    @Mapping(target = "authorId", source = "request.authorId")
+    @Mapping(target = "fileType", source = "request.fileType")
+    @Mapping(target = "createdAt", source = "request.createdAt")
+    Post toPost(CreatePostRequest request, String fileId);
 
-    PostDto toPostDto(Post post);
+    @Mapping(target = "fileType", source = "post.fileType")
+    @Mapping(target =" content", source = "post.content")
+    @Mapping(target = "authorId", source = "post.authorId")
+    @Mapping(target = "createdAt", source = "post.createdAt")
+    PostDto toPostDto(Post post, String file);
 
-    List<PostDto> toPostDtoList(List<Post> posts);
 }

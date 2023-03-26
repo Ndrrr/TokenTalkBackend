@@ -1,5 +1,6 @@
 package com.tokentalk.post.domain;
 
+import com.tokentalk.post.dto.FileType;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -14,6 +15,8 @@ public class Post {
     private String id;
     private String content;
     private Long authorId;
+    private String fileId;
+    private FileType fileType;
     private LocalDateTime createdAt;
 
 }

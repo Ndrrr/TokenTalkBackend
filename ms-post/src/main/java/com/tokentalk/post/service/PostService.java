@@ -1,6 +1,7 @@
 package com.tokentalk.post.service;
 
 import com.tokentalk.post.domain.Post;
+import com.tokentalk.post.dto.FileType;
 import com.tokentalk.post.dto.PostDto;
 import com.tokentalk.post.dto.PostFilter;
 import com.tokentalk.post.dto.request.CreatePostRequest;
@@ -14,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.util.Base64;
 import java.util.List;
 import java.util.Objects;
 
@@ -23,15 +25,31 @@ import java.util.Objects;
 public class PostService {
 
     private final PostRepository postRepository;
+    private final ImageService imageService;
+    private final VideoService videoService;
     private final PostMapper postMapper;
 
     public void create(Long realAuthorId, CreatePostRequest request) {
         if (!Objects.equals(realAuthorId, request.getAuthorId())) {
             throw BaseException.of(ErrorCode.INVALID_AUTHOR_ID, "Author id is not valid");
         }
-        Post post = postMapper.toPost(request);
+        String fileId = saveFile(request);
+
+        Post post = postMapper.toPost(request, fileId);
         postRepository.save(post);
         log.info("Post created: {}", post);
+    }
+
+    private String saveFile(CreatePostRequest request) {
+        if (request.getFile() == null) {
+            return null;
+        }
+        if (request.getFileType() == FileType.IMAGE) {
+            return imageService.saveImage(request.getFile());
+        } else if (request.getFileType() == FileType.VIDEO) {
+            return videoService.saveVideo(request.getFile());
+        }
+        return null;
     }
 
     public PostResponse getAll(PostFilter filter) {
@@ -41,12 +59,30 @@ public class PostService {
         } else {
             posts = postRepository.findAll();
         }
-        return PostResponse.of(postMapper.toPostDtoList(posts));
+        var postDtos = posts.stream()
+                .map(post -> postMapper.toPostDto(post, getFile(post)))
+                .toList();
+        return PostResponse.of(postDtos);
     }
 
     public PostDto getById(String id) {
-        var post = postRepository.findById(id).orElseThrow();
-        return postMapper.toPostDto(post);
+        var post = postRepository.findById(id)
+                .orElseThrow(() -> BaseException.of(ErrorCode.POST_NOT_FOUND, "Post not found"));
+        return postMapper.toPostDto(post, getFile(post));
+    }
+
+    private String getFile(Post post) {
+        if (post.getFileType() == FileType.IMAGE) {
+            return Base64.getEncoder()
+                    .encodeToString(
+                            imageService.getImage(post.getFileId())
+                                    .getImage()
+                                    .getData()
+                    );
+        } else if (post.getFileType() == FileType.VIDEO) {
+            return post.getFileId();
+        }
+        return null;
     }
 
 }
