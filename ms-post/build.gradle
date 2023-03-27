@@ -29,6 +29,9 @@ dependencies {
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 	implementation "org.mapstruct:mapstruct:1.5.3.Final"
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+	implementation "io.github.openfeign:feign-jackson"
+	implementation "io.github.openfeign:feign-annotation-error-decoder"
     compileOnly 'org.projectlombok:lombok'
 
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'

@@ -10,8 +10,9 @@ import java.time.LocalDateTime;
 public class PostDto {
 
     private String content;
-    private Long authorId;
     private LocalDateTime createdAt;
     private FileType fileType;
     private String file;
+    private UserProfileDto user;
+
 }

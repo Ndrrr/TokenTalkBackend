@@ -1,5 +1,7 @@
 package com.tokentalk.post.service;
 
+import com.tokentalk.post.client.UserProfileClient;
+import com.tokentalk.post.client.UserProfileFilter;
 import com.tokentalk.post.domain.Post;
 import com.tokentalk.post.dto.FileType;
 import com.tokentalk.post.dto.PostDto;
@@ -27,6 +29,7 @@ public class PostService {
     private final PostRepository postRepository;
     private final ImageService imageService;
     private final VideoService videoService;
+    private final UserProfileClient userProfileClient;
     private final PostMapper postMapper;
 
     public void create(Long realAuthorId, CreatePostRequest request) {
@@ -60,7 +63,12 @@ public class PostService {
             posts = postRepository.findAll();
         }
         var postDtos = posts.stream()
-                .map(post -> postMapper.toPostDto(post, getFile(post)))
+                .map(post -> {
+                    var userProfile =
+                            userProfileClient.getProfile(UserProfileFilter.withId(post.getAuthorId()));
+
+                    return postMapper.toPostDto(post, userProfile,  getFile(post));
+                })
                 .toList();
         return PostResponse.of(postDtos);
     }
@@ -68,7 +76,10 @@ public class PostService {
     public PostDto getById(String id) {
         var post = postRepository.findById(id)
                 .orElseThrow(() -> BaseException.of(ErrorCode.POST_NOT_FOUND, "Post not found"));
-        return postMapper.toPostDto(post, getFile(post));
+        var userProfile =
+                userProfileClient.getProfile(UserProfileFilter.withId(post.getAuthorId()));
+
+        return postMapper.toPostDto(post, userProfile,getFile(post));
     }
 
     private String getFile(Post post) {
