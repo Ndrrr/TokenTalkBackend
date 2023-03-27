@@ -38,6 +38,12 @@ spring:
             - Path=/api/posts/**
           filters:
             - AuthenticationFilter
+        - id: ms-user-profile
+          uri: lb://ms-user-profile
+          predicates:
+              - Path=/api/profile/**
+          filters:
+              - AuthenticationFilter
 
 server:
   port: 8080
