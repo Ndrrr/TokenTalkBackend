@@ -11,9 +11,11 @@ import com.tokentalk.auth.mapper.UserMapper;
 import com.tokentalk.auth.repository.UserRepository;
 import com.tokentalk.auth.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -28,10 +30,12 @@ public class AuthService {
     }
 
     public LoginResponse login(LoginRequest loginRequest) {
+        log.info("Start login: {}", loginRequest);
         User user = getUserByEmail(loginRequest.getEmail());
         validatePassword(loginRequest.getPassword(), user.getPassword());
         String token = jwtUtil.generateToken(user.getEmail());
-        return LoginResponse.of(token, user.getFirstName() + " " + user.getLastName());
+        log.info("Token generated: {}", token);
+        return LoginResponse.of(token, userMapper.toUserDto(user));
     }
 
 
@@ -46,8 +50,11 @@ public class AuthService {
     }
 
     public ValidateTokenResponse validateToken(String token) {
+        log.info("Start validating token: {}", token);
         String userEmail = jwtUtil.validateToken(token);
+        log.info("User email: {}", userEmail);
         User user = getUserByEmail(userEmail);
+        log.info("User id: {}", user.getId());
         return ValidateTokenResponse.of(user.getId());
     }
 

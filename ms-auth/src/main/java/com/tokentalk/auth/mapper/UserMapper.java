@@ -1,6 +1,7 @@
 package com.tokentalk.auth.mapper;
 
 import com.tokentalk.auth.domain.User;
+import com.tokentalk.auth.dto.UserDto;
 import com.tokentalk.auth.dto.request.RegisterRequest;
 import org.mapstruct.Builder;
 import org.mapstruct.Mapper;
@@ -21,6 +22,8 @@ public abstract class UserMapper {
 
     @Mapping(target = "password", source = "password", qualifiedByName = "encodePassword")
     public abstract User toUser(RegisterRequest request);
+
+    public abstract UserDto toUserDto(User user);
 
     @Named("encodePassword")
     public String encodePassword(String password) {

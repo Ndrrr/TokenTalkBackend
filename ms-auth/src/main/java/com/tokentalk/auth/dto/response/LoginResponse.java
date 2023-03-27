@@ -1,5 +1,6 @@
 package com.tokentalk.auth.dto.response;
 
+import com.tokentalk.auth.dto.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -7,11 +8,11 @@ import lombok.Data;
 @AllArgsConstructor
 public class LoginResponse {
 
-    private String token;
-    private String fullName;
+    private String accessToken;
+    private UserDto user;
 
-    public static LoginResponse of(String token, String fullName) {
-        return new LoginResponse(token, fullName);
+    public static LoginResponse of(String token, UserDto user) {
+        return new LoginResponse(token, user);
     }
 
 }
