@@ -1,4 +1,4 @@
-package com.ndrrr.msuserprofile.error;
+package com.ndrrr.userprofile.error;
 
 import lombok.Getter;
 

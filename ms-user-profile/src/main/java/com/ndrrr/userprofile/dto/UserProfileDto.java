@@ -1,4 +1,4 @@
-package com.ndrrr.msuserprofile.dto;
+package com.ndrrr.userprofile.dto;
 
 import lombok.Data;
 

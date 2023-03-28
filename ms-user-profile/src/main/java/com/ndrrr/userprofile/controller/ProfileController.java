@@ -1,8 +1,8 @@
-package com.ndrrr.msuserprofile.controller;
+package com.ndrrr.userprofile.controller;
 
-import com.ndrrr.msuserprofile.dto.UserProfileDto;
-import com.ndrrr.msuserprofile.dto.UserProfileFilter;
-import com.ndrrr.msuserprofile.service.ProfileService;
+import com.ndrrr.userprofile.dto.UserProfileDto;
+import com.ndrrr.userprofile.dto.UserProfileFilter;
+import com.ndrrr.userprofile.service.ProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

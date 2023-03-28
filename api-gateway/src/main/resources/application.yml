@@ -41,7 +41,7 @@ spring:
         - id: ms-user-profile
           uri: lb://ms-user-profile
           predicates:
-              - Path=/api/profile/**
+              - Path=/api/profile/**, /api/follow/**
           filters:
               - AuthenticationFilter
 

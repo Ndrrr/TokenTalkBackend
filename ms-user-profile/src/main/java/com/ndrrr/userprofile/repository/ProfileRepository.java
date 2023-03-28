@@ -1,6 +1,6 @@
-package com.ndrrr.msuserprofile.repository;
+package com.ndrrr.userprofile.repository;
 
-import com.ndrrr.msuserprofile.domain.UserProfile;
+import com.ndrrr.userprofile.domain.UserProfile;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

@@ -1,16 +1,20 @@
-package com.ndrrr.msuserprofile.domain;
+package com.ndrrr.userprofile.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -36,5 +40,11 @@ public class UserProfile {
 
     @Column
     private String profileImage;
+
+    @ManyToMany(mappedBy = "followees", fetch = FetchType.LAZY)
+    private List<UserProfile> followers;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<UserProfile> followees;
 
 }

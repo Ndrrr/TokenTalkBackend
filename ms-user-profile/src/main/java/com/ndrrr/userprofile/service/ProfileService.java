@@ -1,11 +1,12 @@
-package com.ndrrr.msuserprofile.service;
+package com.ndrrr.userprofile.service;
 
-import com.ndrrr.msuserprofile.dto.UserProfileDto;
-import com.ndrrr.msuserprofile.dto.UserProfileFilter;
-import com.ndrrr.msuserprofile.error.BaseException;
-import com.ndrrr.msuserprofile.error.ErrorCode;
-import com.ndrrr.msuserprofile.mapper.ProfileMapper;
-import com.ndrrr.msuserprofile.repository.ProfileRepository;
+import com.ndrrr.userprofile.domain.UserProfile;
+import com.ndrrr.userprofile.dto.UserProfileDto;
+import com.ndrrr.userprofile.dto.UserProfileFilter;
+import com.ndrrr.userprofile.error.BaseException;
+import com.ndrrr.userprofile.error.ErrorCode;
+import com.ndrrr.userprofile.mapper.ProfileMapper;
+import com.ndrrr.userprofile.repository.ProfileRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -28,16 +29,20 @@ public class ProfileService {
         throw BaseException.of(ErrorCode.FILTER_PARAMETER_NOT_FOUND, "Invalid filter");
     }
 
-    private UserProfileDto getProfileByEmail(String email) {
-        var profile = profileRepository.findByEmail(email)
+    public UserProfileDto getProfileByEmail(String email) {
+        var profile = getProfileByEmailOrThrow(email);
+        return profileMapper.toUserProfileDto(profile);
+    }
+
+    public UserProfile getProfileByEmailOrThrow(String email) {
+        return profileRepository.findByEmail(email)
                 .orElseThrow(() -> BaseException.of(
                         ErrorCode.PROFILE_NOT_FOUND,
                         "Profile not found for email: " + email)
                 );
-        return profileMapper.toUserProfileDto(profile);
     }
 
-    private UserProfileDto getProfileById(Long id) {
+    public UserProfileDto getProfileById(Long id) {
         var profile = profileRepository.findById(id)
                 .orElseThrow(() -> BaseException.of(
                         ErrorCode.PROFILE_NOT_FOUND,

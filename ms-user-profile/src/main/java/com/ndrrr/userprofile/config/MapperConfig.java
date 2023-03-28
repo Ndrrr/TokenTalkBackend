@@ -1,6 +1,6 @@
-package com.ndrrr.msuserprofile.config;
+package com.ndrrr.userprofile.config;
 
-import com.ndrrr.msuserprofile.mapper.ProfileMapper;
+import com.ndrrr.userprofile.mapper.ProfileMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

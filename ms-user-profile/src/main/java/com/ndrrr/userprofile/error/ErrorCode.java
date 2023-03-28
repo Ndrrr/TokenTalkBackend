@@ -1,4 +1,4 @@
-package com.ndrrr.msuserprofile.error;
+package com.ndrrr.userprofile.error;
 
 public enum ErrorCode {
 

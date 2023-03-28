@@ -1,4 +1,4 @@
-package com.ndrrr.msuserprofile;
+package com.ndrrr.userprofile;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
