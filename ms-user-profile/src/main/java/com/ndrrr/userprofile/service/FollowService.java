@@ -37,4 +37,13 @@ public class FollowService {
         profileRepository.save(followee);
     }
 
+    public void unfollow(FollowRequest request) {
+        var follower = profileService.getProfileByEmailOrThrow(request.getFollowerEmail());
+        var followee = profileService.getProfileByEmailOrThrow(request.getFolloweeEmail());
+        follower.getFollowees().remove(followee);
+        followee.getFollowers().remove(follower);
+        profileRepository.save(follower);
+        profileRepository.save(followee);
+    }
+
 }

@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -42,9 +42,9 @@ public class UserProfile {
     private String profileImage;
 
     @ManyToMany(mappedBy = "followees", fetch = FetchType.LAZY)
-    private List<UserProfile> followers;
+    private Set<UserProfile> followers;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    private List<UserProfile> followees;
+    private Set<UserProfile> followees;
 
 }

@@ -19,7 +19,6 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.Base64;
 import java.util.List;
-import java.util.Objects;
 
 @Slf4j
 @Service
@@ -32,10 +31,10 @@ public class PostService {
     private final UserProfileClient userProfileClient;
     private final PostMapper postMapper;
 
-    public void create(Long realAuthorId, CreatePostRequest request) {
-        if (!Objects.equals(realAuthorId, request.getAuthorId())) {
-            throw BaseException.of(ErrorCode.INVALID_AUTHOR_ID, "Author id is not valid");
-        }
+    public void create(CreatePostRequest request) {
+//        if (!Objects.equals(realAuthorId, request.getAuthorId())) {
+//            throw BaseException.of(ErrorCode.INVALID_AUTHOR_ID, "Author id is not valid");
+//        }
         String fileId = saveFile(request);
 
         Post post = postMapper.toPost(request, fileId);
@@ -67,7 +66,7 @@ public class PostService {
                     var userProfile =
                             userProfileClient.getProfile(UserProfileFilter.withId(post.getAuthorId()));
 
-                    return postMapper.toPostDto(post, userProfile,  getFile(post));
+                    return postMapper.toPostDto(post, userProfile, getFile(post));
                 })
                 .toList();
         return PostResponse.of(postDtos);
@@ -79,7 +78,7 @@ public class PostService {
         var userProfile =
                 userProfileClient.getProfile(UserProfileFilter.withId(post.getAuthorId()));
 
-        return postMapper.toPostDto(post, userProfile,getFile(post));
+        return postMapper.toPostDto(post, userProfile, getFile(post));
     }
 
     private String getFile(Post post) {

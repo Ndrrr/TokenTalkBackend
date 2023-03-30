@@ -24,6 +24,11 @@ public class FollowController {
         followService.follow(request);
     }
 
+    @PostMapping("/unfollow")
+    public void unfollow(@RequestBody FollowRequest request) {
+        followService.unfollow(request);
+    }
+
     @GetMapping("/followers/{email}")
     public FollowersResponse getFollowers(@PathVariable String email) {
         return followService.getFollowers(email);

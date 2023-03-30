@@ -7,4 +7,5 @@ public class FollowRequest {
 
     private String followeeEmail;
     private String followerEmail;
+
 }
