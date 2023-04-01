@@ -13,7 +13,7 @@ public class PostDto {
     private String content;
     private LocalDateTime createdAt;
     private FileType fileType;
-    private String file;
+    private String fileId;
     private UserProfileDto user;
 
 }

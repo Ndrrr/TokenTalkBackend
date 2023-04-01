@@ -8,9 +8,9 @@ public class UserProfileFilter {
     private String email;
     private Long id;
 
-    public static UserProfileFilter withId(Long id) {
+    public static UserProfileFilter withEmail(String email) {
         UserProfileFilter filter = new UserProfileFilter();
-        filter.setId(id);
+        filter.setEmail(email);
         return filter;
     }
 

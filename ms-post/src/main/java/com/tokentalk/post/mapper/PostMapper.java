@@ -16,16 +16,17 @@ public interface PostMapper {
     PostMapper INSTANCE = Mappers.getMapper(PostMapper.class);
 
     @Mapping(target = "content", source = "request.content")
-    @Mapping(target = "authorId", source = "request.authorId")
+    @Mapping(target = "authorEmail", source = "request.authorEmail")
     @Mapping(target = "fileType", source = "request.fileType")
-    @Mapping(target = "createdAt", source = "request.createdAt")
+    @Mapping(target = "createdAt", expression = "java(java.time.LocalDateTime.now())")
     Post toPost(CreatePostRequest request, String fileId);
 
     @Mapping(target = "id", source = "post.id")
     @Mapping(target = "fileType", source = "post.fileType")
+    @Mapping(target = "fileId", source = "post.fileId")
     @Mapping(target =" content", source = "post.content")
     @Mapping(target = "createdAt", source = "post.createdAt")
     @Mapping(target = "user", source = "userProfile", qualifiedByName = "toUserProfileDto")
-    PostDto toPostDto(Post post, UserProfileResponse userProfile, String file);
+    PostDto toPostDto(Post post, UserProfileResponse userProfile);
 
 }

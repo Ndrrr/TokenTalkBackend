@@ -7,6 +7,6 @@ import java.util.List;
 @Data
 public class PostFilter {
 
-    private List<Long> authorIds;
+    private List<String> authorEmails;
 
 }

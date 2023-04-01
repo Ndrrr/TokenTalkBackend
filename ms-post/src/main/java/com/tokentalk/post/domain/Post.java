@@ -14,7 +14,7 @@ public class Post {
     @Id
     private String id;
     private String content;
-    private Long authorId;
+    private String authorEmail;
     private String fileId;
     private FileType fileType;
     private LocalDateTime createdAt;
