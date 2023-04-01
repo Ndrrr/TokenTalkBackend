@@ -21,6 +21,7 @@ public interface PostMapper {
     @Mapping(target = "createdAt", source = "request.createdAt")
     Post toPost(CreatePostRequest request, String fileId);
 
+    @Mapping(target = "id", source = "post.id")
     @Mapping(target = "fileType", source = "post.fileType")
     @Mapping(target =" content", source = "post.content")
     @Mapping(target = "createdAt", source = "post.createdAt")

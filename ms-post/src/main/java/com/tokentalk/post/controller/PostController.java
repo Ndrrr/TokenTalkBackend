@@ -32,8 +32,8 @@ public class PostController {
 
     @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public void create(@ModelAttribute @Valid CreatePostRequest request) {
-        postService.create(request);
+    public String create(@ModelAttribute @Valid CreatePostRequest request) {
+        return postService.create(request);
     }
 
     @GetMapping("/all")

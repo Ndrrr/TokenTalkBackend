@@ -31,15 +31,16 @@ public class PostService {
     private final UserProfileClient userProfileClient;
     private final PostMapper postMapper;
 
-    public void create(CreatePostRequest request) {
+    public String create(CreatePostRequest request) {
 //        if (!Objects.equals(realAuthorId, request.getAuthorId())) {
 //            throw BaseException.of(ErrorCode.INVALID_AUTHOR_ID, "Author id is not valid");
 //        }
         String fileId = saveFile(request);
 
         Post post = postMapper.toPost(request, fileId);
-        postRepository.save(post);
+        Post created = postRepository.save(post);
         log.info("Post created: {}", post);
+        return created.getId();
     }
 
     private String saveFile(CreatePostRequest request) {

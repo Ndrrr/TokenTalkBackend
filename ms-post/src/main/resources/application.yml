@@ -1,7 +1,7 @@
 spring:
   data:
     mongodb:
-      uri: mongodb://tokentalk:password@localhost:27017/tokentalk
+      uri: mongodb://root:example@localhost:27017/tokentalk
   application:
     name: ms-post
   servlet:

@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PostDto {
 
+    private String id;
     private String content;
     private LocalDateTime createdAt;
     private FileType fileType;
