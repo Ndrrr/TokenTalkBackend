@@ -9,6 +9,7 @@ import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFac
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
+import org.springframework.web.server.ServerWebExchange;
 
 @Component
 public class AuthenticationFilter extends AbstractGatewayFilterFactory<AuthenticationFilter.Config> {
@@ -34,30 +35,25 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                 String authHeader = getAuthorizationHeader(exchange.getRequest());
                 String token = getTokenFromHeader(authHeader);
                 try {
-                    jwtUtil.validateToken(token);
+                    setSubjectToHeader(exchange, jwtUtil.validateToken(token));
                 } catch (Exception e) {
                     throw BaseException.of(ErrorCode.INVALID_TOKEN, "Invalid token");
                 }
-                //setSubjectToHeader(exchange, response);
             }
             return chain.filter(exchange);
         });
     }
 
-//    private void setSubjectToHeader(ServerWebExchange exchange,
-//                                    ResponseEntity<ValidateTokenResponse> response) {
-//        if (Objects.isNull(response.getBody()) || Objects.isNull(response.getBody().getUserId()))
-//            throw BaseException.of(ErrorCode.INVALID_SUBJECT, "Invalid subject");
-//
-//        ServerHttpRequest request = exchange.getRequest()
-//                .mutate()
-//                .header("userId", response.getBody().getUserId().toString())
-//                .build();
-//
-//        exchange.mutate()
-//                .request(request)
-//                .build();
-//    }
+    private void setSubjectToHeader(ServerWebExchange exchange, String token) {
+        ServerHttpRequest request = exchange.getRequest()
+                .mutate()
+                .header("userEmail", token)
+                .build();
+
+        exchange.mutate()
+                .request(request)
+                .build();
+    }
 
     private String getAuthorizationHeader(ServerHttpRequest request) {
         if (!request.getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {

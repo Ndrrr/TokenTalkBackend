@@ -37,10 +37,11 @@ public class PostService {
     private final PostMapper postMapper;
     private final Tika tika;
 
-    public String create(CreatePostRequest request) {
-//        if (!Objects.equals(realAuthorId, request.getAuthorId())) {
-//            throw BaseException.of(ErrorCode.INVALID_AUTHOR_ID, "Author id is not valid");
-//        }
+    public String create(String authorEmailFromJwt ,CreatePostRequest request) {
+        System.out.println("authorEmailFromJwt: " + authorEmailFromJwt);
+        if (!Objects.equals(authorEmailFromJwt, request.getAuthorEmail())) {
+            throw BaseException.of(ErrorCode.INVALID_AUTHOR_ID, "Author id is not valid");
+        }
         String fileId = saveFile(request);
 
         Post post = postMapper.toPost(request, fileId);
