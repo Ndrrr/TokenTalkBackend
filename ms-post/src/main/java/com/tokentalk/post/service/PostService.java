@@ -14,9 +14,13 @@ import com.tokentalk.post.mapper.PostMapper;
 import com.tokentalk.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.tika.Tika;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
 
@@ -25,11 +29,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PostService {
 
+    private final static List<String> allowedFileExtensions = List.of("jpg", "png", "jpeg", "gif", "mp4", "mov");
+
     private final PostRepository postRepository;
     private final ImageService imageService;
     private final VideoService videoService;
     private final UserProfileClient userProfileClient;
     private final PostMapper postMapper;
+    private final Tika tika;
 
     public String create(CreatePostRequest request) {
 //        if (!Objects.equals(realAuthorId, request.getAuthorId())) {
@@ -47,12 +54,32 @@ public class PostService {
         if (request.getFile() == null) {
             return null;
         }
-        if (request.getFileType() == FileType.IMAGE) {
+        validateFileExtension(request.getFile());
+        String mimeType = detectMimeType(request.getFile());
+        if (mimeType.startsWith("image")) {
+            request.setFileType(FileType.IMAGE);
             return imageService.saveImage(request.getFile());
-        } else if (request.getFileType() == FileType.VIDEO) {
+        } else if (mimeType.startsWith("video")) {
+            request.setFileType(FileType.VIDEO);
             return videoService.saveVideo(request.getFile());
         }
-        return null;
+        throw BaseException.of(ErrorCode.INVALID_FILE_TYPE, "File type is not valid");
+    }
+
+    private String detectMimeType(MultipartFile file) {
+        try {
+            return tika.detect(file.getInputStream());
+        } catch (IOException e) {
+            throw BaseException.of(ErrorCode.FILE_READ_ERROR, "File read error");
+        }
+    }
+
+    private void validateFileExtension(MultipartFile file) {
+        String extension = FilenameUtils.getExtension(file.getOriginalFilename());
+        if (!allowedFileExtensions.contains(extension)) {
+            throw BaseException.of(
+                    ErrorCode.INVALID_FILE_EXTENSION, "File extension is not valid");
+        }
     }
 
     public PostResponse getAll(PostFilter filter) {
