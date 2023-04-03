@@ -17,6 +17,7 @@ public class Post {
     private String authorEmail;
     private String fileId;
     private FileType fileType;
+    private String mimeType;
     private LocalDateTime createdAt;
 
 }

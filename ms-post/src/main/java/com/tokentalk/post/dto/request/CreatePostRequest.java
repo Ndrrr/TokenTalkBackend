@@ -18,5 +18,6 @@ public class CreatePostRequest {
     private MultipartFile file;
 
     private FileType fileType;
+    private String mimeType;
 
 }

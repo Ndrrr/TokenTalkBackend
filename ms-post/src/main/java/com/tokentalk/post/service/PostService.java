@@ -56,6 +56,7 @@ public class PostService {
         }
         validateFileExtension(request.getFile());
         String mimeType = detectMimeType(request.getFile());
+        request.setMimeType(mimeType);
         if (mimeType.startsWith("image")) {
             request.setFileType(FileType.IMAGE);
             return fileService.saveFile(request.getFile());

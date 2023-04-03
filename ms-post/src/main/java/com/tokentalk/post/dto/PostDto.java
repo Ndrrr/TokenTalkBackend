@@ -14,6 +14,7 @@ public class PostDto {
     private LocalDateTime createdAt;
     private FileType fileType;
     private String fileId;
+    private String mimeType;
     private UserProfileDto user;
 
 }
