@@ -3,6 +3,7 @@ package com.tokentalk.post.controller;
 import com.tokentalk.post.dto.PostDto;
 import com.tokentalk.post.dto.PostFilter;
 import com.tokentalk.post.dto.request.CreatePostRequest;
+import com.tokentalk.post.dto.request.DeletePostRequest;
 import com.tokentalk.post.dto.response.PostResponse;
 import com.tokentalk.post.service.FileService;
 import com.tokentalk.post.service.PostService;
@@ -12,10 +13,12 @@ import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -33,7 +36,8 @@ public class PostController {
 
     @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public String create(@RequestHeader("userEmail") String authorEmail, @ModelAttribute @Valid CreatePostRequest request) {
+    public String create(@RequestHeader("userEmail") String authorEmail,
+                         @ModelAttribute @Valid CreatePostRequest request) {
         return postService.create(authorEmail, request);
     }
 
@@ -45,6 +49,12 @@ public class PostController {
     @GetMapping("/{id}")
     public PostDto getById(@PathVariable("id") String id) {
         return postService.getById(id);
+    }
+
+    @DeleteMapping("/delete")
+    public void deleteById(@RequestHeader("userEmail") String authorEmail,
+                           @RequestBody DeletePostRequest request) {
+        postService.deleteById(authorEmail, request);
     }
 
     @GetMapping(value = "/files/{id}")

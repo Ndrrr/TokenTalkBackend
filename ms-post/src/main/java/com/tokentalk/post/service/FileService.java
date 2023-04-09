@@ -46,4 +46,8 @@ public class FileService {
         return PostFile.of(video, resource);
     }
 
+    public void deleteFile(String id) {
+        gridFsTemplate.delete(new Query(Criteria.where("_id").is(id)));
+    }
+
 }

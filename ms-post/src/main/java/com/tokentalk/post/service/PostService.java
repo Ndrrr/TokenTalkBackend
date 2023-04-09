@@ -7,6 +7,7 @@ import com.tokentalk.post.dto.FileType;
 import com.tokentalk.post.dto.PostDto;
 import com.tokentalk.post.dto.PostFilter;
 import com.tokentalk.post.dto.request.CreatePostRequest;
+import com.tokentalk.post.dto.request.DeletePostRequest;
 import com.tokentalk.post.dto.response.PostResponse;
 import com.tokentalk.post.error.BaseException;
 import com.tokentalk.post.error.ErrorCode;
@@ -38,9 +39,9 @@ public class PostService {
     private final Tika tika;
 
     public String create(String authorEmailFromJwt ,CreatePostRequest request) {
-        System.out.println("authorEmailFromJwt: " + authorEmailFromJwt);
+        log.info("authorEmailFromJwt: " + authorEmailFromJwt);
         if (!Objects.equals(authorEmailFromJwt, request.getAuthorEmail())) {
-            throw BaseException.of(ErrorCode.INVALID_AUTHOR_ID, "Author id is not valid");
+            throw BaseException.of(ErrorCode.INVALID_AUTHOR_EMAIL, "Author email is not valid");
         }
         String fileId = saveFile(request);
 
@@ -107,6 +108,19 @@ public class PostService {
                 userProfileClient.getProfile(UserProfileFilter.withEmail(post.getAuthorEmail()));
 
         return postMapper.toPostDto(post, userProfile);
+    }
+
+    public void deleteById(String authorEmail, DeletePostRequest request) {
+        log.info("authorEmailFromJwt: " + authorEmail);
+        if (!Objects.equals(authorEmail, request.getAuthorEmail())) {
+            throw BaseException.of(ErrorCode.INVALID_AUTHOR_EMAIL, "Author email is not valid");
+        }
+
+        var post = postRepository.findById(request.getId());
+        if (post.isPresent()) {
+            fileService.deleteFile(post.get().getFileId());
+            postRepository.deleteById(request.getId());
+        }
     }
 
 }
