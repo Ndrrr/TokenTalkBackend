@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: ms-nft
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:9090/eureka/
+
+server:
+  port: 0
+
