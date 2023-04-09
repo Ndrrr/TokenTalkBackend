@@ -1,3 +1,5 @@
 .idea
 smartcontracts/artifacts/**
 smartcontracts/cache/**
+mongodbdata
+postgresdata
