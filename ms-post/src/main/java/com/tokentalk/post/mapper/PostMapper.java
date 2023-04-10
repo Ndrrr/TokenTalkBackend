@@ -26,6 +26,7 @@ public interface PostMapper {
     @Mapping(target = "fileId", source = "post.fileId")
     @Mapping(target =" content", source = "post.content")
     @Mapping(target = "createdAt", source = "post.createdAt")
+    @Mapping(target = "comments", source = "post.comments")
     @Mapping(target = "user", source = "userProfile", qualifiedByName = "toUserProfileDto")
     PostDto toPostDto(Post post, UserProfileResponse userProfile);
 

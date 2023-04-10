@@ -38,6 +38,12 @@ spring:
             - Path=/api/posts/**
           filters:
             - AuthenticationFilter
+        - id: ms-comment
+          uri: lb://ms-comment
+          predicates:
+            - Path=/api/comments/**
+          filters:
+            - AuthenticationFilter
         - id: ms-user-profile
           uri: lb://ms-user-profile
           predicates:

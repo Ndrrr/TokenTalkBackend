@@ -1,6 +1,5 @@
-package com.tokentalk.post.domain;
+package com.tokentalk.comment.domain;
 
-import com.tokentalk.post.dto.FileType;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -21,5 +20,12 @@ public class Post {
     private String mimeType;
     private LocalDateTime createdAt;
     private Set<Comment> comments;
+
+    public Set<Comment> getComments() {
+        if (comments == null) {
+            comments = new java.util.HashSet<>();
+        }
+        return comments;
+    }
 
 }

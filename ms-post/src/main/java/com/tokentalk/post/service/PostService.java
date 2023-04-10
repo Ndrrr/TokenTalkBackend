@@ -38,7 +38,7 @@ public class PostService {
     private final PostMapper postMapper;
     private final Tika tika;
 
-    public String create(String authorEmailFromJwt ,CreatePostRequest request) {
+    public String create(String authorEmailFromJwt, CreatePostRequest request) {
         log.info("authorEmailFromJwt: " + authorEmailFromJwt);
         if (!Objects.equals(authorEmailFromJwt, request.getAuthorEmail())) {
             throw BaseException.of(ErrorCode.INVALID_AUTHOR_EMAIL, "Author email is not valid");
@@ -98,6 +98,7 @@ public class PostService {
                     return postMapper.toPostDto(post, userProfile);
                 })
                 .toList();
+        log.info("Post list: {}", postDtos);
         return PostResponse.of(postDtos);
     }
 
