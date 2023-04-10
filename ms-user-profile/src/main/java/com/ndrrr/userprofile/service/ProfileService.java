@@ -3,6 +3,7 @@ package com.ndrrr.userprofile.service;
 import com.ndrrr.userprofile.domain.UserProfile;
 import com.ndrrr.userprofile.dto.UserProfileDto;
 import com.ndrrr.userprofile.dto.UserProfileFilter;
+import com.ndrrr.userprofile.dto.response.SearchUserResponse;
 import com.ndrrr.userprofile.error.BaseException;
 import com.ndrrr.userprofile.error.ErrorCode;
 import com.ndrrr.userprofile.mapper.ProfileMapper;
@@ -20,10 +21,10 @@ public class ProfileService {
     private final ProfileMapper profileMapper;
 
     public UserProfileDto getProfile(UserProfileFilter filter) {
-        if(filter.getEmail() != null) {
+        if (filter.getEmail() != null) {
             return getProfileByEmail(filter.getEmail());
         }
-        if(filter.getId() != null) {
+        if (filter.getId() != null) {
             return getProfileById(filter.getId());
         }
         throw BaseException.of(ErrorCode.FILTER_PARAMETER_NOT_FOUND, "Invalid filter");
@@ -50,6 +51,19 @@ public class ProfileService {
                 );
         log.info("Profile found: {}", profile);
         return profileMapper.toUserProfileDto(profile);
+    }
+
+    public SearchUserResponse searchUser(UserProfileFilter filter) {
+        System.out.println(filter);
+        if (filter.getEmail() != null) {
+            var users = profileRepository.findByEmailIsContainingIgnoreCase(filter.getEmail())
+                    .stream()
+                    .limit(5)
+                    .map(profileMapper::toUserProfileDto)
+                    .toList();
+            return SearchUserResponse.of(users);
+        }
+        throw BaseException.of(ErrorCode.FILTER_PARAMETER_NOT_FOUND, "Invalid filter");
     }
 
 }
