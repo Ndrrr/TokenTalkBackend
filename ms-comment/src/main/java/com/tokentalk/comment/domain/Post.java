@@ -20,12 +20,20 @@ public class Post {
     private String mimeType;
     private LocalDateTime createdAt;
     private Set<Comment> comments;
+    private Set<String> likes;
 
     public Set<Comment> getComments() {
         if (comments == null) {
             comments = new java.util.HashSet<>();
         }
         return comments;
+    }
+
+    public Set<String> getLikes() {
+        if (likes == null) {
+            likes = new java.util.HashSet<>();
+        }
+        return likes;
     }
 
 }

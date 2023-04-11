@@ -1,6 +1,5 @@
-package com.tokentalk.post.domain;
+package com.tokentalk.like.domain;
 
-import com.tokentalk.post.dto.FileType;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

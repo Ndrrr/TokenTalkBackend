@@ -44,6 +44,12 @@ spring:
             - Path=/api/comments/**
           filters:
             - AuthenticationFilter
+        - id: ms-like
+          uri: lb://ms-like
+          predicates:
+            - Path=/api/like/**
+          filters:
+            - AuthenticationFilter
         - id: ms-user-profile
           uri: lb://ms-user-profile
           predicates:

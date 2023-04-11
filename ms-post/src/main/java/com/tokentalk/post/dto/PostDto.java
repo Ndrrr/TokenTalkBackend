@@ -19,5 +19,6 @@ public class PostDto {
     private String mimeType;
     private UserProfileDto user;
     private Set<Comment> comments;
+    private Set<String> likes;
 
 }
