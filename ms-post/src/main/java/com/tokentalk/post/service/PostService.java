@@ -30,7 +30,8 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class PostService {
 
-    private final static List<String> allowedFileExtensions = List.of("jpg", "png", "jpeg", "gif", "mp4", "mov");
+    private final static List<String> allowedFileExtensions =
+            List.of("jpg", "png", "jpeg", "gif", "mp4", "mov", "mp3", "wav");
 
     private final PostRepository postRepository;
     private final FileService fileService;
@@ -63,6 +64,9 @@ public class PostService {
             return fileService.saveFile(request.getFile());
         } else if (mimeType.startsWith("video")) {
             request.setFileType(FileType.VIDEO);
+            return fileService.saveFile(request.getFile());
+        } else if (mimeType.startsWith("audio")) {
+            request.setFileType(FileType.AUDIO);
             return fileService.saveFile(request.getFile());
         }
         throw BaseException.of(ErrorCode.INVALID_FILE_TYPE, "File type is not valid");
