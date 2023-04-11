@@ -38,8 +38,14 @@ public class UserProfile {
     @Column(nullable = false)
     private String lastName;
 
+    @Column(nullable = false)
+    private String password;
+
     @Column
     private String profileImage;
+
+    @Column
+    private String description;
 
     @ManyToMany(mappedBy = "followees", fetch = FetchType.LAZY)
     private Set<UserProfile> followers;

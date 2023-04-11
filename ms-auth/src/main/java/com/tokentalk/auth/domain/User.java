@@ -37,6 +37,9 @@ public class User {
     @Column(nullable = false)
     private String lastName;
 
+    @Column(columnDefinition = "nvarchar(1024) default lorem")
+    private String description;
+
     @Column(columnDefinition = "nvarchar(1024) default https://i.imgur.com/6VBx3io.png")
     private String profileImage;
 

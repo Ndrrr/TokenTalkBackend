@@ -9,5 +9,6 @@ public class UserProfileDto {
     private String lastName;
     private String email;
     private String profileImage;
+    private String description;
 
 }
